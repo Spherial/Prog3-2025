@@ -87,7 +87,12 @@ public class MySimpleLinkedList<T> implements Iterable<T>{
 
     //Para que se pueda iterar, devuelvo un iterador que arranque desde el primer nodo de la lista
     @Override
-    public Iterator<T> iterator() {
+    public LinkedListIterator<T> iterator() {
         return new LinkedListIterator<>(this.first);
     }
+    
+    
+    
+    
+    
 }

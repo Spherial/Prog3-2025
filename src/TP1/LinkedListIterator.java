@@ -23,4 +23,9 @@ public class LinkedListIterator<T> implements Iterator<T> {
         this.cursor = this.cursor.getNext();
         return infoActual;
     }
+    
+    public T getInfo() {
+    	return this.cursor.getInfo();
+    }
+    
 }

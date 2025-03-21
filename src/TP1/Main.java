@@ -40,4 +40,17 @@ public class Main {
             System.out.println("Imprimiendo elemento: " + nombre);
         }
     }
+    
+    public <T> MySimpleLinkedList<T> elementosComunes(MySimpleLinkedList<T> lista1, MySimpleLinkedList<T> lista2){
+    	MySimpleLinkedList<T> resultado = new MySimpleLinkedList();
+    	
+    	LinkedListIterator<T> iterador1 = lista1.iterator();
+    	LinkedListIterator<T> iterador2 = lista2.iterator();
+    	
+    	while(!iterador1.hasNext() && !iterador2.hasNext()) {
+    		
+    	}
+    	
+    	return null;
+    }
 }
