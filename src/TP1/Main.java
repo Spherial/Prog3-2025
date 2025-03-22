@@ -28,29 +28,95 @@ public class Main {
 
 
         //Iterator usando while
-        System.out.println("---WHILE---");
-        Iterator<String> it = nombres.iterator();
-        while (it.hasNext()){
-            System.out.println("Imprimiendo elemento: " + it.next());
-        }
+//        System.out.println("---WHILE---");
+//        Iterator<String> it = nombres.iterator();
+//        while (it.hasNext()){
+//            System.out.println("Imprimiendo elemento: " + it.next());
+//        }
 
         //Iterator usando foreach
         System.out.println("---FOREACH---");
         for (String nombre : nombres){
             System.out.println("Imprimiendo elemento: " + nombre);
         }
+
+
+
+
+//        MySimpleLinkedList<Integer> numeros1 = new MySimpleLinkedList<>();
+//        numeros1.insertFront(25);
+//        numeros1.insertFront(22);
+//        numeros1.insertFront(20);
+//        numeros1.insertFront(16);
+//
+//        MySimpleLinkedList<Integer> numeros2 = new MySimpleLinkedList<>();
+//        numeros2.insertFront(26);
+//        numeros2.insertFront(22);
+//        numeros2.insertFront(8);
+//        numeros2.insertFront(5);
+//
+//
+//        System.out.println(numeros1);
+//        System.out.println(numeros2);
+//
+//        MySimpleLinkedList<Integer> comunes = elementosComunes(numeros1,numeros2);
+//        System.out.println(comunes);
+
+
+
+        MySimpleLinkedList<Integer> numeros1 = new MySimpleLinkedList<>();
+        numeros1.insertFront(30);
+        numeros1.insertFront(22);
+        numeros1.insertFront(20);
+        numeros1.insertFront(15);
+        numeros1.insertFront(10);
+
+        MySimpleLinkedList<Integer> numeros2 = new MySimpleLinkedList<>();
+        numeros2.insertFront(35);
+        numeros2.insertFront(30);
+        numeros2.insertFront(21);
+        numeros2.insertFront(10);
+        numeros2.insertFront(5);
+
+
+        System.out.println(numeros1);
+        System.out.println(numeros2);
+
+        MySimpleLinkedList<Integer> comunes = elementosComunes(numeros1,numeros2);
+        System.out.println(comunes);
+
+
+
+
+
+
+
+
+
     }
-    
-    public <T> MySimpleLinkedList<T> elementosComunes(MySimpleLinkedList<T> lista1, MySimpleLinkedList<T> lista2){
-    	MySimpleLinkedList<T> resultado = new MySimpleLinkedList();
-    	
-    	LinkedListIterator<T> iterador1 = lista1.iterator();
-    	LinkedListIterator<T> iterador2 = lista2.iterator();
-    	
-    	while(!iterador1.hasNext() && !iterador2.hasNext()) {
-    		
+
+    public static MySimpleLinkedList<Integer> elementosComunes(MySimpleLinkedList<Integer> lista1, MySimpleLinkedList<Integer> lista2){
+    	MySimpleLinkedList<Integer> resultado = new MySimpleLinkedList<>();
+
+    	LinkedListIterator<Integer> iterador1 = lista1.iterator();
+    	LinkedListIterator<Integer> iterador2 = lista2.iterator();
+
+    	while(iterador1.hasNext() && iterador2.hasNext()) {
+    		if (iterador1.getInfo() > iterador2.getInfo()){
+                iterador2.next();
+            }
+            else if(iterador1.getInfo() < iterador2.getInfo()){
+                iterador1.next();
+            }
+            else{
+                resultado.insertFront(iterador1.getInfo());
+                iterador1.next();
+                iterador2.next();
+            }
+
     	}
-    	
-    	return null;
+
+        //TODO recordar ordenar este resultado ascendentemente
+    	return resultado;
     }
 }
