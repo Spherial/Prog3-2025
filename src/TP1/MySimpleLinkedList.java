@@ -5,10 +5,12 @@ import java.util.Iterator;
 public class MySimpleLinkedList<T> implements Iterable<T>{
 
     private Node<T> first;
+    private Node<T> last;
     private int size;
 
     public MySimpleLinkedList() {
         this.first = null;
+        this.last = null;
         this.size = 0;
     }
 
@@ -16,24 +18,29 @@ public class MySimpleLinkedList<T> implements Iterable<T>{
         Node<T> nuevoNodo = new Node<>(info,null);
         nuevoNodo.setNext(this.first);
         this.first = nuevoNodo;
+
+        //Si la lista esta vacia, el primer nodo tambien es el ultimo
+        if(this.size == 0){
+            this.last = nuevoNodo;
+        }
+
         this.size+=1;
     }
 
     public void insertLast(T info) {
         Node<T> nuevoNodo = new Node<>(info, null);
-        //Si la lista esta vacia, el nuevo nodo es el primero
+
+        // Si es lista vacia, el nodo es tanto el primero como el ultmo
         if (this.first == null) {
             this.first = nuevoNodo;
+            this.last = nuevoNodo;
+        } else {
+            // Sino, el ultimo nodo apunta al nuevo (y el nuevo pasa a ser el nuevo ultimo)
+            this.last.setNext(nuevoNodo);
+            this.last = nuevoNodo;
         }
-        //Si no, recorro hasta el ultimo y le asigno como siguiente al nuevo nodo
-        else {
-            Node<T> nodoActual = this.first;
 
-            while (nodoActual.getNext() != null) {
-                nodoActual = nodoActual.getNext();
-            }
-            nodoActual.setNext(nuevoNodo);
-        }
+        this.size+=1;
     }
 
 
@@ -41,6 +48,14 @@ public class MySimpleLinkedList<T> implements Iterable<T>{
         Node<T> nodoActual = this.first;
         Node<T> nodoSiguiente = this.first.getNext();
         this.first = nodoSiguiente;
+
+
+        //Si la lista queda vacia, el last tambien es null
+        if (this.first == null){
+            this.last = null;
+        }
+
+
         this.size-=1;
         return nodoActual.getInfo();
     }

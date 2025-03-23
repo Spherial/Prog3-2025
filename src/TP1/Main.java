@@ -82,7 +82,7 @@ public class Main {
         System.out.println(numeros1);
         System.out.println(numeros2);
 
-        MySimpleLinkedList<Integer> comunes = elementosComunes(numeros1,numeros2);
+        MySimpleLinkedList<Integer> comunes = elementosComunesB(numeros1,numeros2);
         System.out.println(comunes);
 
 
@@ -95,7 +95,8 @@ public class Main {
 
     }
 
-    public static MySimpleLinkedList<Integer> elementosComunes(MySimpleLinkedList<Integer> lista1, MySimpleLinkedList<Integer> lista2){
+    //Ambas listas vienen ordenadas, el resultado debe estar ordenado
+    public static MySimpleLinkedList<Integer> elementosComunesB(MySimpleLinkedList<Integer> lista1, MySimpleLinkedList<Integer> lista2){
     	MySimpleLinkedList<Integer> resultado = new MySimpleLinkedList<>();
 
     	LinkedListIterator<Integer> iterador1 = lista1.iterator();
@@ -117,5 +118,17 @@ public class Main {
     	}
 
     	return resultado;
+    }
+
+    //Ambas listas desordenadas, el resultado debe estar ordenado
+    public static MySimpleLinkedList<Integer> elementosComunesA(MySimpleLinkedList<Integer> lista1, MySimpleLinkedList<Integer> lista2){
+        MySimpleLinkedList<Integer> resultado = new MySimpleLinkedList<>();
+
+        LinkedListIterator<Integer> iterador1 = lista1.iterator();
+        LinkedListIterator<Integer> iterador2 = lista2.iterator();
+
+        //TODO
+
+        return resultado;
     }
 }
