@@ -19,6 +19,24 @@ public class MySimpleLinkedList<T> implements Iterable<T>{
         this.size+=1;
     }
 
+    public void insertLast(T info) {
+        Node<T> nuevoNodo = new Node<>(info, null);
+        //Si la lista esta vacia, el nuevo nodo es el primero
+        if (this.first == null) {
+            this.first = nuevoNodo;
+        }
+        //Si no, recorro hasta el ultimo y le asigno como siguiente al nuevo nodo
+        else {
+            Node<T> nodoActual = this.first;
+
+            while (nodoActual.getNext() != null) {
+                nodoActual = nodoActual.getNext();
+            }
+            nodoActual.setNext(nuevoNodo);
+        }
+    }
+
+
     public T extractFront() {
         Node<T> nodoActual = this.first;
         Node<T> nodoSiguiente = this.first.getNext();

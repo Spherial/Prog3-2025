@@ -109,14 +109,13 @@ public class Main {
                 iterador1.next();
             }
             else{
-                resultado.insertFront(iterador1.getInfo());
+                resultado.insertLast(iterador1.getInfo());
                 iterador1.next();
                 iterador2.next();
             }
 
     	}
 
-        //TODO recordar ordenar este resultado ascendentemente
     	return resultado;
     }
 }
