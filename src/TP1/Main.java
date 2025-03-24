@@ -93,6 +93,30 @@ public class Main {
 
 
 
+
+
+
+
+        //------------------LISTA DOBLEMENTE VINCULADA
+
+        MyDoubleLinkedList<String> apellidos = new MyDoubleLinkedList<>();
+
+        System.out.println("_----------------------------------------------------_");
+        apellidos.insertFront("Aceto");
+        apellidos.insertLast("Ramirez");
+        apellidos.insertFront("EL PRIMEROOO");
+        System.out.println(apellidos);
+
+
+
+
+
+
+
+
+
+
+
     }
 
     //Ambas listas vienen ordenadas, el resultado debe estar ordenado
@@ -131,4 +155,11 @@ public class Main {
 
         return resultado;
     }
+
+
+
+
+
+
+
 }
