@@ -74,9 +74,9 @@ public class Main {
         MySimpleLinkedList<Integer> numeros2 = new MySimpleLinkedList<>();
         numeros2.insertFront(35);
         numeros2.insertFront(30);
+        numeros2.insertFront(5);
         numeros2.insertFront(21);
         numeros2.insertFront(10);
-        numeros2.insertFront(5);
 
 
         System.out.println(numeros1);
@@ -84,6 +84,13 @@ public class Main {
 
         MySimpleLinkedList<Integer> comunes = elementosComunesB(numeros1,numeros2);
         System.out.println(comunes);
+        
+        
+        
+        System.out.println("EJERCICIO A");
+        MySimpleLinkedList<Integer>  comunesA = elementosComunesA(numeros1,numeros2);
+        
+        System.out.println(comunesA);
 
 
 
@@ -148,8 +155,11 @@ public class Main {
     public static MySimpleLinkedList<Integer> elementosComunesA(MySimpleLinkedList<Integer> lista1, MySimpleLinkedList<Integer> lista2){
         MySimpleLinkedList<Integer> resultado = new MySimpleLinkedList<>();
 
-        LinkedListIterator<Integer> iterador1 = lista1.iterator();
-        LinkedListIterator<Integer> iterador2 = lista2.iterator();
+        for (int elemento : lista1) {
+        	if (lista2.indexOf(elemento) != -1) {
+        		resultado.insertFront(elemento);
+        	}
+        }
 
         //TODO
 

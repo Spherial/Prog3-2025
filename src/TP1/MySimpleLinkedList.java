@@ -2,7 +2,7 @@ package TP1;
 
 import java.util.Iterator;
 
-public class MySimpleLinkedList<T> implements Iterable<T>{
+public class MySimpleLinkedList<T extends Comparable<T>> implements Iterable<T>{
 
     private Node<T> first;
     private Node<T> last;
