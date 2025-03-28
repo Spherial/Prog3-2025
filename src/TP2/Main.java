@@ -24,7 +24,7 @@ public class Main {
     }
     //Complejidad: O(n) porque visito 1 vez cada elemento
 
-    //Hacerlo recursivo apila muchos llamados a la ejecución, frenándola hasta que este algoritmo termine
+    //Hacerlo recursivo apila muchos llamados a la ejecución, aumentando el costo de memoria
 
     //Si fuera una lista, en lugar de acceder a los índices directamente (el acceso aleatorio es caro), habría
     //que avanzar al siguiente nodo y repetir la búsqueda
@@ -101,6 +101,33 @@ public class Main {
 
 
 
+    public static boolean valorIgualPosicion(int[] arr, int pos){
+        //Si coincide el valor con la posicion, retorno true
+        if (arr[pos] == pos){
+            return true;
+        }
+        //Si llegue al final del arreglo y todavia no lo encontre, retorno false
+        if (pos == arr.length-1){
+            return false;
+        }
+
+        //Propago la busqueda a la siguiente posicion
+        return valorIgualPosicion(arr,pos+1);
+
+    }
+
+
+    public static void fibonacci(int terminos,int contador,int num1,int num2){
+        if (contador < terminos){
+            System.out.println(num1);
+
+            fibonacci(terminos,contador+1,num2,num1+num2);
+        }
+    }
+
+
+
+
 
 
     public static void main(String[] args) {
@@ -109,6 +136,7 @@ public class Main {
         int[] ordenado = {1, 2, 3, 4, 5};
         int[] desordenado = {1, 3, 2, 4, 5};
         int[] random = {3,8,7,3,4,8,3,7,2,7,8,5};
+        int[] valoresIguales = {-3,-1,0,2,4,6,10};
         System.out.println(estaOrdenado(ordenado, 0));
         System.out.println(estaOrdenado(desordenado, 0));
 
@@ -117,18 +145,24 @@ public class Main {
         System.out.println("Existe el elemento 8? : " + busquedaBinaria(ordenado,0,ordenado.length-1,8));
 
         //Ejercicio 3
-
         System.out.println(convertirABinario(26));
 
 
+        //Ejercicio 4
+        fibonacci(6,0,0,1);
+
+
+        //Ejercicio 5
+        System.out.println(valorIgualPosicion(valoresIguales,0));
+
+
+        //Ejercicio 6
         System.out.println("BUBBLE SORT");
         System.out.println("ANTES DE ORDENAR");
         imprimirArray(random);
         bubbleSort(random);
         System.out.println("DESPUES DE ORDENAR");
         imprimirArray(random);
-
-
 
     }
 }
