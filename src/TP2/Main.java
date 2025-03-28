@@ -79,6 +79,26 @@ public class Main {
     }
 
 
+    //Bubble sort basico, sin optimizaciones
+    public static void bubbleSort(int[] arr){
+        for (int i = 0; i < arr.length-1;i++){
+            for(int j=0; j < arr.length-1-i;j++){
+                if (arr[j] > arr[j+1]){
+                    int tmp = arr[j+1];
+                    arr[j+1] = arr[j];
+                    arr[j] = tmp;
+                }
+            }
+        }
+    }
+
+    public static void imprimirArray(int[] arr){
+        for (int i = 0; i < arr.length;i++){
+            System.out.println("ARR[" + i + "] = " + arr[i]);
+        }
+    }
+
+
 
 
 
@@ -88,6 +108,7 @@ public class Main {
         //Ejercicio 1
         int[] ordenado = {1, 2, 3, 4, 5};
         int[] desordenado = {1, 3, 2, 4, 5};
+        int[] random = {3,8,7,3,4,8,3,7,2,7,8,5};
         System.out.println(estaOrdenado(ordenado, 0));
         System.out.println(estaOrdenado(desordenado, 0));
 
@@ -98,6 +119,16 @@ public class Main {
         //Ejercicio 3
 
         System.out.println(convertirABinario(26));
+
+
+        System.out.println("BUBBLE SORT");
+        System.out.println("ANTES DE ORDENAR");
+        imprimirArray(random);
+        bubbleSort(random);
+        System.out.println("DESPUES DE ORDENAR");
+        imprimirArray(random);
+
+
 
     }
 }
