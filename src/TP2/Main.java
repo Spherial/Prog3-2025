@@ -48,7 +48,6 @@ public class Main {
             return true;
         }
 
-
         //Si no lo encontré, propago la búsqueda a la mitad izquierda y a la mitad derecha
 
         //Propagar izquierda (desde el inicio hasta el medio)
@@ -57,9 +56,6 @@ public class Main {
         }
         //Propagar derecha (desde el medio hasta el fin)
         return busquedaBinaria(arr, medio+1, fin,elemento);
-
-
-
 
     }
     //Complejidad: O(LogN)
