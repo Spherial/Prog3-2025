@@ -73,4 +73,64 @@ public class Tree {
         return actual.getValue();
     }
 
+    public void  printPreOrder(){
+        System.out.println("-----PRE ORDER-----");
+        if (this.root != null){
+            printPreOrder(this.root);
+        }
+        else{
+            System.out.println("Arbol vacio");
+        }
+    }
+
+    private void printPreOrder(TreeNode actual){
+        if (actual == null){
+            System.out.println("-");
+            return;
+        }
+        System.out.println(actual.getValue());
+        printPreOrder(actual.getLeft());
+        printPreOrder(actual.getRight());
+    }
+
+    public void  printInOrder(){
+        System.out.println("-----IN ORDER-----");
+        if (this.root != null){
+            printInOrder(this.root);
+        }
+        else{
+            System.out.println("Arbol vacio");
+        }
+    }
+
+    private void printInOrder(TreeNode actual){
+        if (actual == null){
+            System.out.println("-");
+            return;
+        }
+        printInOrder(actual.getLeft());
+        System.out.println(actual.getValue());
+        printInOrder(actual.getRight());
+    }
+
+    public void  printPosOrder(){
+        System.out.println("-----POS ORDER-----");
+        if (this.root != null){
+            printPosOrder(this.root);
+        }
+        else{
+            System.out.println("Arbol vacio");
+        }
+    }
+
+    private void printPosOrder(TreeNode actual){
+        if (actual == null){
+            System.out.println("-");
+            return;
+        }
+        printPosOrder(actual.getLeft());
+        printPosOrder(actual.getRight());
+        System.out.println(actual.getValue());
+    }
+
 }
