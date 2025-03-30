@@ -73,6 +73,41 @@ public class Tree {
         return actual.getValue();
     }
 
+
+    //Inicializa la busqueda del integer en la raiz
+    public boolean hasElem(Integer elem){
+        return hasElem(this.root,elem);
+    }
+
+
+    //Comprueba si X valor esta en este arbol
+    private boolean hasElem(TreeNode actual, Integer elem){
+        if (actual != null){
+            //Si el nodo actual es mas grande, busco por su izquierda
+            if (actual.getValue() > elem){
+                return hasElem(actual.getLeft(),elem);
+            }
+            //Si el nodo actual es mas chico, busco por su derecha
+            else if (actual.getValue() < elem){
+                return hasElem(actual.getRight(),elem);
+            }
+            //Si el valor es igual, lo encontre
+            else{
+                return true;
+            }
+        }
+
+
+        return false;
+    }
+
+
+
+
+
+
+    //RECORRIDOS
+
     public void  printPreOrder(){
         System.out.println("-----PRE ORDER-----");
         if (this.root != null){

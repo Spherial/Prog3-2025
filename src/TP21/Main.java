@@ -13,7 +13,7 @@ public class Main {
         miArbol.printInOrder();
         miArbol.printPosOrder();
 
-
+        System.out.println(miArbol.hasElem(5));
 
     }
 
