@@ -1,5 +1,8 @@
 package TP21;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tree {
 
     private TreeNode root;
@@ -103,8 +106,51 @@ public class Tree {
 
 
 
+    //Devuelve la frontera del arbol (todas las hojas)
+    public List<Integer> getFrontera(){
+        ArrayList<Integer> resultado = new ArrayList<>();
+        rellenarListaFrontera(this.root,resultado);
+        return resultado;
+    }
+
+    //Inserta todos los nodos sin hijos (izq o der) en la lista y se propaga recursivamente
+    private void rellenarListaFrontera(TreeNode actual, List<Integer> lista){
+        //Si estoy en un null, no hago nada
+        if (actual == null){
+            return;
+        }
+
+        //Si estoy parado en una hoja, la agrego a la lista
+        if ((actual.getLeft() == null) && (actual.getRight() == null)){
+            lista.add(actual.getValue());
+        }
+
+        //Propaga la busqueda en los nodos hijos
+        rellenarListaFrontera(actual.getLeft(),lista);
+        rellenarListaFrontera(actual.getRight(),lista);
+    }
 
 
+    //Obtiene todos los valores de nodos de X nivel de profundidad
+    public List<Integer> getElemAtLevel(int level){
+        ArrayList<Integer> resultado = new ArrayList<>();
+        getElemAtLevel(this.root,resultado,0,level);
+        return resultado;
+    }
+
+
+    //Comprueba si el nivel del nodo es el buscado, lo agrega a la lista y se propaga a sus hijos
+    private void getElemAtLevel(TreeNode actual, List<Integer> lista, int level,int target){
+        if (actual != null){
+            if (level == target){
+                lista.add(actual.getValue());
+            }
+        getElemAtLevel(actual.getLeft(),lista,level+1,target);
+        getElemAtLevel(actual.getRight(),lista,level+1,target);
+
+
+        }
+    }
 
     //RECORRIDOS
 
