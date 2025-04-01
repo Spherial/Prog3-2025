@@ -28,6 +28,10 @@ public class Main {
 
         System.out.println(miArbol.getElemAtLevel(0));
 
+        System.out.println(miArbol.getHeight());
+
+        System.out.println(miArbol.getLongestBranch());
+
     }
 
 }

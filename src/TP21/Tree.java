@@ -105,6 +105,81 @@ public class Tree {
     }
 
 
+    //Obtiene un nodo especifico del arbol
+    private TreeNode get(Integer elem){
+        return get(this.root,elem);
+    }
+
+    //Recorre el arbol hasta encontrar el nodo deseado y lo retorna
+    //Iterativo para evitar desbordamiento de la pila
+    private TreeNode get(TreeNode actual, Integer elem) {
+        while (actual != null) {
+            if (actual.getValue() > elem) {
+                actual = actual.getLeft();
+            } else if (actual.getValue() < elem) {
+                actual = actual.getRight();
+            } else {
+                return actual;
+            }
+        }
+        return null;
+    }
+
+
+    //Elimina un nodo del arbol. Si es necesario reacomoda nodos para garantizar la estructura del ABB
+    public boolean delete(Integer elem){
+        TreeNode nodoABorrar = get(elem);
+        return delete(nodoABorrar);
+    }
+
+    private boolean delete(TreeNode actual){
+        return false; //TODO
+    }
+
+
+
+    //Obtiene la rama mas larga del arbol
+
+    public List<Integer> getLongestBranch(){
+        List<Integer> resultado = new ArrayList<>();
+        getLongestBranch(this.root, new ArrayList<>(),resultado);   //La lista actual comienza vacia
+        return resultado;
+    }
+
+    //Este metodo busca la totalidad del arbol y actualiza la lista "resultado"
+    private void getLongestBranch(TreeNode actual, List<Integer> ramaActual, List<Integer> ramaMayor){
+        //Si estoy parado en un null, dejo de buscar por este lado
+        if (actual == null){
+            return;
+        }
+
+        //Si estoy parado en un nodo valido, lo agrego para ir construyendo la lista
+        ramaActual.add(actual.getValue());
+
+        //Una vez que llego a una hoja, comparo el tamaño de las 2 ramas que tengo (la actual y la mayor)
+        if(actual.getLeft() == null & actual.getRight()==null){
+            if (ramaActual.size() > ramaMayor.size()){
+                //Vacio la rama mayor y la reemplazo con la actual
+                ramaMayor.clear();
+                ramaMayor.addAll(ramaActual);
+            }
+        }
+        //Si no estoy en una hoja (ni en un null) solo sigo recorriendo para ambos lados
+        else{
+            getLongestBranch(actual.getLeft(),ramaActual,ramaMayor);
+            getLongestBranch(actual.getRight(),ramaActual,ramaMayor);
+        }
+
+        //Cada vez que la funcion "vuelve para atras", le quito el ultimo nodo para revertir el estado
+        //de la ramaActual a como era antes de entrar a este nodo (para evitar que se puedan mezclar los caminos)
+        ramaActual.remove(ramaActual.size() - 1);
+
+
+    }
+
+
+
+
 
     //Devuelve la frontera del arbol (todas las hojas)
     public List<Integer> getFrontera(){
@@ -151,6 +226,21 @@ public class Tree {
 
         }
     }
+
+    public int getHeight() {
+        return getHeight(this.root);
+    }
+
+    private int getHeight(TreeNode actual) {
+        if (actual == null) {
+            return -1;
+        }
+        int izqH = getHeight(actual.getLeft());
+        int derH = getHeight(actual.getRight());
+
+        return Math.max(izqH, derH) + 1;
+    }
+
 
     //RECORRIDOS
 
