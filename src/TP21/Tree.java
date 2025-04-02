@@ -326,6 +326,78 @@ public class Tree {
     }
 
 
+
+    //Ejercicio 2
+
+    //Suma los valores de todos los nodos internos (aquellos que no son hojas)
+
+    public int sumarNodosInternos(){
+        //Si el arbol esta vacio, no hay nada que sumar, es 0
+        if (this.isEmpty()){
+            return 0;
+        }
+        return sumarNodosInternos(this.root);
+    }
+
+
+    private int sumarNodosInternos(TreeNode actual){
+        //Si estamos recorriendo un null, no tiene valor, no sumamos nada
+        if (actual == null){
+            return 0;
+        }
+        //Almacenamos la suma actual (de este subarbol), la cual ira creciendo al
+        //sumar los demas subarboles
+        int suma = 0;
+
+        //Si estamos en un nodo interno (o sea, que tenga al menos un hijo), sumamos su valor
+        if (actual.getLeft() != null || actual.getRight() != null){
+            suma+= actual.getValue();
+        }
+
+        //Propagamos la suma a los subarboles izquierdos y derechos
+        suma+= sumarNodosInternos(actual.getLeft());
+        suma+= sumarNodosInternos(actual.getRight());
+
+        return suma;
+
+    }
+
+
+
+    //Ejercicio 3
+
+    //Crea una lista con todas las hojas cuyo valor sea mayor que K
+
+    public List<Integer> valoresMayoresA(Integer k){
+        ArrayList<Integer> resultado = new ArrayList<>();
+        valoresMayoresA(this.root,k, resultado);
+        return resultado;
+    }
+
+    private void valoresMayoresA(TreeNode actual, Integer k, List<Integer> resultado){
+        if (actual != null){
+
+            //Comprueba que el nodo actual sea una hoja
+            if (actual.getLeft() == null && actual.getRight() == null){
+                //Si esta hoja tiene un valor mayor a k, lo añadimos a la lista
+                if (actual.getValue() > k){
+                    resultado.add(actual.getValue());
+                }
+            }
+
+            //Buscamos en los subarboles izquierdos y derechos
+            valoresMayoresA(actual.getLeft(),k,resultado);
+            valoresMayoresA(actual.getRight(),k,resultado);
+
+
+        }
+    }
+
+
+
+
+
+
     //RECORRIDOS
 
     public void  printPreOrder(){

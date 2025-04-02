@@ -17,7 +17,7 @@ public class Main {
         miArbol.add(11);
         miArbol.add(7);
         miArbol.add(9);
-        miArbol.add(5);
+
 
         miArbol.printPreOrder();
         miArbol.printInOrder();
@@ -35,8 +35,12 @@ public class Main {
 
 
 
-        miArbol.delete(4);
+
         miArbol.printPreOrder();
+
+        System.out.println(miArbol.sumarNodosInternos());
+
+        System.out.println(miArbol.valoresMayoresA(8));
 
     }
 
