@@ -128,13 +128,97 @@ public class Tree {
 
     //Elimina un nodo del arbol. Si es necesario reacomoda nodos para garantizar la estructura del ABB
     public boolean delete(Integer elem){
-        TreeNode nodoABorrar = get(elem);
-        return delete(nodoABorrar);
+        if (this.root == null){
+            return false;
+        }
+
+        //Si estoy queriendo borrar la raiz
+        if (this.root.getValue().equals(elem)){
+            this.root = null; //TODO CAMBIAR
+            return true;
+        }
+        else{
+            return borrarNodo(this.root,elem);
+        }
+
     }
 
-    private boolean delete(TreeNode actual){
-        return false; //TODO
+    //Encuentra el nodo a borrar, consigue un reemplazo y actualiza las referencias
+    private boolean borrarNodo(TreeNode actual, Integer elem) {
+        //Si el arbol esta vacio, devuelvo null
+        if (actual == null) {
+            return false;
+        }
+
+
+        //Si el elemento a borrar es menor, entonces debe estar en el subarbol izquierdo
+        if (elem < actual.getValue()) {
+            //Compruebo si el hijo izquierdo es el que queria eliminar
+            if (actual.getLeft() != null && actual.getLeft().getValue().equals(elem)) {
+                actual.setLeft(obtenerReemplazo(actual.getLeft())); //Consigo un reemplazo y lo cambio
+                return true;
+            } else {
+                return borrarNodo(actual.getLeft(), elem); //Sino, sigo buscando por la izquierda
+            }
+        }
+        //Si el elemento a borrar es mayor, entonces debe estar en el subarbol derecho
+        else if (elem > actual.getValue()) {
+            //Compruebo si el hijo derecho es el que quiero borrar
+            if (actual.getRight() != null && actual.getRight().getValue().equals(elem)) {
+                actual.setRight(obtenerReemplazo(actual.getRight()));   //Consigo un reemplazo y lo cambio
+                return true;
+            } else {
+                return borrarNodo(actual.getRight(), elem); //Sino, sigo buscando por la derecha
+            }
+        }
+
+        //No encontre el nodo que queria borrar
+        return false;
     }
+
+
+    //Devuelve cual nodo deberia tomar el lugar de este, al eliminarlo
+    //Luego el arbol se encargara de actualizar la referencia
+    private TreeNode obtenerReemplazo(TreeNode nodo){
+
+        //Si el nodo a borrar es una hoja, directamente lo reemplazamos por un null
+        if (nodo.getLeft() == null && nodo.getRight() == null){
+            return null;
+        }
+
+        //Si el nodo a borrar tiene un solo hijo, dicho hijo tomara su lugar
+
+        if (nodo.getLeft() == null) {   //Si solo tiene hijo derecho, el derecho sera el reemplazo
+            return nodo.getRight();
+        }
+        else if (nodo.getRight() == null) { //Si solo tiene hijo izquierdo, el izquierdo sera el reemplazo
+            return nodo.getLeft();
+        }
+
+
+
+        //Si el nodo a borrar tiene dos hijos, necesitamos buscar su sucesor inmediato
+        //es decir, el minimo elemento de su subarbol derecho
+
+        TreeNode sucesor = encontrarMinimo(nodo.getRight());    //Encuentro el sucesor
+        nodo.setValue(sucesor.getValue());
+        nodo.setRight(borrarNodo(nodo.getRight(), sucesor.getValue()) ? nodo.getRight() : null);
+        return nodo; //El reemplazo sera un nodo que apunte al sucesor directo
+
+    }
+
+
+    //Busca el minimo nodo a partir del actual
+    //Como lo necesito para encontrar el sucesor de un nodo, es privado y devuelvo el nodo entero
+    // en lugar de su valor
+    private TreeNode encontrarMinimo(TreeNode actual) {
+        while (actual.getLeft() != null) {
+            actual = actual.getLeft();
+        }
+        return actual;
+    }
+
+
 
 
 

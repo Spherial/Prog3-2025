@@ -32,5 +32,9 @@ public class TreeNode {
         return value;
     }
 
+    public void setValue(Integer newValue){
+        this.value = newValue;
+    }
+
 
 }

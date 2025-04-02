@@ -17,6 +17,7 @@ public class Main {
         miArbol.add(11);
         miArbol.add(7);
         miArbol.add(9);
+        miArbol.add(5);
 
         miArbol.printPreOrder();
         miArbol.printInOrder();
@@ -31,6 +32,11 @@ public class Main {
         System.out.println(miArbol.getHeight());
 
         System.out.println(miArbol.getLongestBranch());
+
+
+
+        miArbol.delete(4);
+        miArbol.printPreOrder();
 
     }
 
