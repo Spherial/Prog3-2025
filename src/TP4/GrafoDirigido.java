@@ -23,8 +23,29 @@ public class GrafoDirigido<T> implements Grafo<T> {
     }
 
     @Override
+    //Borrar un vertice, incluyendo los arcos que salen y entran al mismo
     public void borrarVertice(int verticeId) {
-        // TODO Auto-generated method stub
+        if (this.contieneVertice(verticeId)) {
+            // Primero borramos los arcos que entran a este vertice
+            Iterator<Arco<T>> it = this.obtenerArcos();
+            while (it.hasNext()) {
+                Arco<T> arco = it.next();
+                if (arco.getVerticeDestino() == verticeId) {
+                    it.remove();
+                    cantArcos--;
+                }
+            }
+
+            //Antes de borrar el vertice, restamos su cantidad de arcos salientes)
+            ArrayList<Arco<T>> arcosSalientes = arcosAdyacentes.get(verticeId);
+            //Chequeamos que dichos arcos salientes si existan, porque caso contrario la lista es null
+            if (arcosSalientes != null) {
+                cantArcos -= arcosSalientes.size();
+            }
+
+            // Ahora, borramos el vértice del hashmap (garbage collector elimina los arcos salientes)
+            arcosAdyacentes.remove(verticeId);
+        }
     }
 
     @Override
@@ -36,8 +57,23 @@ public class GrafoDirigido<T> implements Grafo<T> {
     }
 
     @Override
+    //Borrar todos los arcos que vayan desde el vertice 1 al vertice 2
     public void borrarArco(int verticeId1, int verticeId2) {
-        // TODO Auto-generated method stub
+        //Primero, chequeamos que el vertice1 si tenga arcos para borrar
+        if (this.arcosAdyacentes.get(verticeId1) != null){
+
+            //Obtenemos todos los arcos salientes de vertice1
+            Iterator<Arco<T>> it = obtenerArcos(verticeId1);
+            while (it.hasNext()){
+                Arco<T> arcoActual = it.next();
+
+                //Si el arco actual va al vertice 2 (sabiendo que estamos parados en el 1), lo borramos
+                if (arcoActual.getVerticeDestino() == verticeId2){
+                    it.remove();
+                    cantArcos--;
+                }
+            }
+        }
     }
 
     @Override
@@ -58,7 +94,15 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
     @Override
     public Arco<T> obtenerArco(int verticeId1, int verticeId2) {
-        // TODO Auto-generated method stub
+        List<Arco<T>> adyacentes = this.arcosAdyacentes.get(verticeId1);
+        if (adyacentes == null) {
+            return null;
+        }
+        for (Arco<T> arco : adyacentes) {
+            if (arco.getVerticeDestino() == verticeId2) {
+                return arco;
+            }
+        }
         return null;
     }
 
@@ -79,8 +123,12 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
     @Override
     public Iterator<Integer> obtenerAdyacentes(int verticeId) {
-        // TODO Auto-generated method stub
-        return null;
+        ArrayList<Integer> adyacentes = new ArrayList<>();
+        for (Arco<T> arco : this.arcosAdyacentes.get(verticeId)){
+            adyacentes.add(arco.getVerticeDestino());
+        }
+
+        return adyacentes.iterator();
     }
 
     @Override
