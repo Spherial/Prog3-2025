@@ -6,9 +6,11 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
     private HashMap<Integer, ArrayList<Arco<T>>> arcosAdyacentes;
     private int cantArcos;
+    private HashMap<Integer,Character> estadoVertices;
 
     public GrafoDirigido(){
         this.arcosAdyacentes = new HashMap<>();
+        this.estadoVertices = new HashMap<>();
         this.cantArcos = 0;
     }
 
@@ -18,6 +20,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
         //Chequear el get != null
         if (!arcosAdyacentes.containsKey(verticeId)){
             this.arcosAdyacentes.put(verticeId, new ArrayList<>());
+            this.estadoVertices.put(verticeId,'B');
         }
 
     }
@@ -25,16 +28,25 @@ public class GrafoDirigido<T> implements Grafo<T> {
     @Override
     //Borrar un vertice, incluyendo los arcos que salen y entran al mismo
     public void borrarVertice(int verticeId) {
+        //Primero, chequeamos que exista el vertice que queremos borrar
         if (this.contieneVertice(verticeId)) {
-            // Primero borramos los arcos que entran a este vertice
-            Iterator<Arco<T>> it = this.obtenerArcos();
-            while (it.hasNext()) {
-                Arco<T> arco = it.next();
-                if (arco.getVerticeDestino() == verticeId) {
-                    it.remove();
-                    cantArcos--;
-                }
-            }
+
+            //Luego, iteramos todas las listas de arcos de nuestro hashmap
+           for (ArrayList<Arco<T>> arcos : this.arcosAdyacentes.values()){
+
+               //Para cada lista de arcos, iteramos los arcos y vemos si van hacia el elemento que vamos a borrar
+               Iterator<Arco<T>> it = arcos.iterator();
+               while (it.hasNext()){
+                   Arco<T> arcoActual = it.next();
+
+                   //Si es el caso, borramos dicho arco para que no apunte a un vertice inexistente
+                   if (arcoActual.getVerticeDestino() == verticeId){
+                       it.remove();
+                       this.cantArcos--;
+                   }
+               }
+
+           }
 
             //Antes de borrar el vertice, restamos su cantidad de arcos salientes)
             ArrayList<Arco<T>> arcosSalientes = arcosAdyacentes.get(verticeId);
@@ -44,7 +56,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
             }
 
             // Ahora, borramos el vértice del hashmap (garbage collector elimina los arcos salientes)
-            arcosAdyacentes.remove(verticeId);
+            this.arcosAdyacentes.remove(verticeId);
+            this.estadoVertices.remove(verticeId);
         }
     }
 
@@ -63,7 +76,8 @@ public class GrafoDirigido<T> implements Grafo<T> {
         if (this.arcosAdyacentes.get(verticeId1) != null){
 
             //Obtenemos todos los arcos salientes de vertice1
-            Iterator<Arco<T>> it = obtenerArcos(verticeId1);
+            ArrayList<Arco<T>> arcos = this.arcosAdyacentes.get(verticeId1);
+            Iterator<Arco<T>> it = arcos.iterator();
             while (it.hasNext()){
                 Arco<T> arcoActual = it.next();
 
@@ -144,5 +158,50 @@ public class GrafoDirigido<T> implements Grafo<T> {
     public Iterator<Arco<T>> obtenerArcos(int verticeId) {
         return this.arcosAdyacentes.get(verticeId).iterator();
     }
+
+
+    public void DFS(){
+        //Al modificar las entries, se modifican tambien los valores del hashmap original
+        // (el set tiene las mismas referencias que el mapa)
+        Set<Map.Entry<Integer, Character>> entries = this.estadoVertices.entrySet();
+
+        //Para cada vertice del mapa de estados, los pintamos de blanco
+        for(Map.Entry<Integer,Character> entry : entries){
+            entry.setValue('B');
+        }
+        System.out.println("Seteados todos los vertices a blanco");
+
+
+        for(Map.Entry<Integer,Character> entry : entries){
+            //Si el vertice esta sin visitar (blanco)
+            if (entry.getValue().equals('B')){
+                DFS_Visit(entry.getKey());
+            }
+        }
+
+
+    }
+
+    public void DFS_Visit(Integer verticeId){
+        //Marcamos el vertice como visitado (amarillo)
+        this.estadoVertices.put(verticeId,'A');
+        System.out.println("Pasando por vertice: " + verticeId);
+
+        Iterator<Integer> it = this.obtenerAdyacentes(verticeId);
+        while(it.hasNext()){
+            Integer next = it.next();
+
+            //Si este vertice esta sin explorar (blanco) lo recorremos
+            if (this.estadoVertices.get(next).equals('B')){
+                DFS_Visit(next);
+            }
+        }
+
+        //Una vez recorridos todos los adyacentes de este vertice, lo pintamos de negro para finalizar
+        this.estadoVertices.put(verticeId,'N');
+        System.out.println("Finalizado el vertice: " + verticeId);
+
+    }
+
 
 }
