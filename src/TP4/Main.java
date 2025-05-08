@@ -14,6 +14,7 @@ public class Main {
         miGrafo.agregarArco(1,3,0);
 
 
-        miGrafo.DFS();
+        DFS<Integer> dfs = new DFS<>(miGrafo);
+        dfs.DFS();
     }
 }
