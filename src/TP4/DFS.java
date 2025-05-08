@@ -57,6 +57,11 @@ public class DFS<T> {
             if (this.estadoVertices.get(next).equals('B')){
                 DFS_Visit(next);
             }
+            else{
+                if (this.estadoVertices.get(next).equals('A')){
+                    System.out.println("CICLO DETECTADO");
+                }
+            }
         }
 
         //Una vez recorridos todos los adyacentes de este vertice, lo pintamos de negro para finalizar
