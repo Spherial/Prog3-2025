@@ -16,5 +16,6 @@ public class Main {
 
         DFS<Integer> dfs = new DFS<>(miGrafo);
         dfs.DFS();
+        System.out.println(dfs.caminoMasLargo(1,4));
     }
 }

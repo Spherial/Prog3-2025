@@ -10,7 +10,6 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
     public GrafoDirigido(){
         this.arcosAdyacentes = new HashMap<>();
-        this.estadoVertices = new HashMap<>();
         this.cantArcos = 0;
     }
 
@@ -20,7 +19,6 @@ public class GrafoDirigido<T> implements Grafo<T> {
         //Chequear el get != null
         if (!arcosAdyacentes.containsKey(verticeId)){
             this.arcosAdyacentes.put(verticeId, new ArrayList<>());
-            this.estadoVertices.put(verticeId,'B');
         }
 
     }
@@ -57,7 +55,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 
             // Ahora, borramos el vértice del hashmap (garbage collector elimina los arcos salientes)
             this.arcosAdyacentes.remove(verticeId);
-            this.estadoVertices.remove(verticeId);
+
         }
     }
 
