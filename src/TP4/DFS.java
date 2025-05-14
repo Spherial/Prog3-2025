@@ -74,7 +74,7 @@ public class DFS<T> {
     //Encuentra el camino mas largo entre 2 vertices usando backtracking
     // (Busca todos los posibles caminos y se queda con el mas largo)
     public ArrayList<Integer> caminoMasLargo(int vertice1, int vertice2) {
-        ArrayList<Integer> caminoActual = new ArrayList<>();
+        LinkedList<Integer> caminoActual = new LinkedList<>();
         ArrayList<Integer> masLargo = new ArrayList<>();
 
         //Setea por default todos los vertices como no visitados
@@ -86,7 +86,7 @@ public class DFS<T> {
 
 
 
-    private void caminoMasLargo(int actual, int destino, ArrayList<Integer> caminoActual, ArrayList<Integer> masLargo) {
+    private void caminoMasLargo(int actual, int destino, LinkedList<Integer> caminoActual, ArrayList<Integer> masLargo) {
 
         //Marcamos el vertice actual como visitado
         this.estadoVertices.put(actual,'A');

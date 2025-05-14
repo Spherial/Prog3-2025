@@ -70,13 +70,13 @@ public class BFS<T> {
     }
 
     //Encuentra el camino mas corto entre 2 esquinas (vertices)
-    public ArrayList<Integer> caminoMasCorto(Integer esquinaA, Integer esquinaB){
+    public LinkedList<Integer> caminoMasCorto(Integer esquinaA, Integer esquinaB){
         LinkedList<Integer> queue = new LinkedList<>();
 
         //Mientras recorremos, para cada nodo anotamos cual es su padre (el predecesor)
         //Cuando encontremos nuestro destino, usamos este mapa para construir el camino hacia el
         HashMap<Integer,Integer> padres = new HashMap<>();
-        ArrayList<Integer> resultado = new ArrayList<>();
+        LinkedList<Integer> resultado = new LinkedList<>();
 
         this.resetearEstadoVertices();
 
