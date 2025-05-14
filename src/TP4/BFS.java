@@ -19,15 +19,19 @@ public class BFS<T> {
         }
     }
 
+    public void resetearEstadoVertices(){
+        for(Map.Entry<Integer,Character> entry : this.estadoVertices.entrySet()){
+            entry.setValue('B');
+        }
+    }
+
     public void BFS() {
         //Creamos la fila
         LinkedList<Integer> queue = new LinkedList<>();
         Set<Map.Entry<Integer, Character>> entries = this.estadoVertices.entrySet();
 
         //Marcamos todos los vertices como no visitados (Blanco)
-        for (Map.Entry<Integer,Character> entry : entries) {
-            entry.setValue('B');
-        }
+        this.resetearEstadoVertices();
 
         //Si el vertice que recorremos esta sin visitar, lo visitamos
         //Pasamos la la queue que vamos a usar en todo el recorrido
@@ -65,6 +69,67 @@ public class BFS<T> {
         }
     }
 
+    //Encuentra el camino mas corto entre 2 esquinas (vertices)
+    public ArrayList<Integer> caminoMasCorto(Integer esquinaA, Integer esquinaB){
+        LinkedList<Integer> queue = new LinkedList<>();
+
+        //Mientras recorremos, para cada nodo anotamos cual es su padre (el predecesor)
+        //Cuando encontremos nuestro destino, usamos este mapa para construir el camino hacia el
+        HashMap<Integer,Integer> padres = new HashMap<>();
+        ArrayList<Integer> resultado = new ArrayList<>();
+
+        this.resetearEstadoVertices();
+
+        this.estadoVertices.put(esquinaA,'N');
+        queue.add(esquinaA);
+
+        padres.put(esquinaA,null); //El origen no tiene padre
+
+        while(!queue.isEmpty()){
+            int actual = queue.poll();
+            Iterator<Integer> adyacentes = this.grafo.obtenerAdyacentes(actual);
+
+
+            while(adyacentes.hasNext()){
+                Integer next = adyacentes.next();
+                if (this.estadoVertices.get(next).equals('B')){
+                    this.estadoVertices.put(next,'N');
+                    //El padre del adyacente es el actual
+                    padres.put(next,actual);
+
+                    //Si el siguiente es el destino, este es el camino a devolver.
+                    //Entonces cortamos, y abajo recreamos el camino para llegar hasta aca
+                    if (next.equals(esquinaB)){
+                        queue.clear();
+                        break;
+                    }
+                    queue.add(next);
+                }
+            }
+        }
+
+        //Ahora que llegamos a la esquina B, usamos el hashmap para saber como hicimos para llegar
+        //Como nuestro hashmap guarda los padres de los nodos, vamos a recorrer de atras para adelante
+
+        //Antes, chequeamos casos especiales como que no exista camino, o que partamos ya en el destino
+
+        if (!padres.containsKey(esquinaB) || esquinaA.equals(esquinaB)) {
+            return resultado;   //Vacio
+        }
+
+        Integer actual = esquinaB;
+
+        //Desde la esquina B, hacemos un recorrido inverso hasta llegar al nodo cuyo padre sea null
+        // es decir, esquinaA
+        while(actual != null){
+            resultado.addFirst(actual); //Insertamos al principio el elemento (corre hacia la derecha lo demas)
+            actual=padres.get(actual);  //Nos paramos en el padre y repetimos
+        }
+
+
+        return resultado;
+
+    }
 
 }
 
