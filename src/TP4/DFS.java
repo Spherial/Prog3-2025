@@ -19,15 +19,19 @@ public class DFS<T> {
         }
     }
 
+    public void resetearEstadoVertices(){
+        for(Map.Entry<Integer,Character> entry : this.estadoVertices.entrySet()){
+            entry.setValue('B');
+        }
+    }
+
     public void DFS(){
         //Al modificar las entries, se modifican tambien los valores del hashmap original
         // (el set tiene las mismas referencias que el mapa)
         Set<Map.Entry<Integer, Character>> entries = this.estadoVertices.entrySet();
 
         //Para cada vertice del mapa de estados, los pintamos de blanco
-        for(Map.Entry<Integer,Character> entry : entries){
-            entry.setValue('B');
-        }
+        this.resetearEstadoVertices();
         System.out.println("Seteados todos los vertices a blanco");
 
 
@@ -74,9 +78,7 @@ public class DFS<T> {
         ArrayList<Integer> masLargo = new ArrayList<>();
 
         //Setea por default todos los vertices como no visitados
-        for(Map.Entry<Integer,Character> entry : this.estadoVertices.entrySet()){
-            entry.setValue('B');
-        }
+        this.resetearEstadoVertices();
 
         caminoMasLargo(vertice1, vertice2, caminoActual, masLargo);
         return masLargo;
@@ -122,6 +124,55 @@ public class DFS<T> {
 
     }
 
+
+    //Devuelve una lista de todos los vertices que pueden llegar a determinado destino
+    public ArrayList<Integer> verticesQueLlegan(Integer destino) {
+        ArrayList<Integer> resultado = new ArrayList<>();
+        Iterator<Integer> adyacentes = this.grafo.obtenerVertices();
+
+        while(adyacentes.hasNext()) {
+            Integer vertice = adyacentes.next();
+
+            //Limpiamos el mapa de recorrido en cada iteracion, para que los caminos explorados no afecten
+            // a los caminos por explorar
+            this.resetearEstadoVertices();
+
+            //En cada vertice, si existe un camino, lo agregamos al resultado
+            if(existeCamino(vertice, destino)) {
+                resultado.add(vertice);
+            }
+        }
+        return resultado;
+    }
+
+    private boolean existeCamino(Integer actual, Integer destino) {
+
+        //Si llegamos al destino, devolvemos true
+        if(actual.equals(destino)) {
+            return true;
+        }
+
+        //Sino
+
+        //Marcamos este vertice como visitado
+        this.estadoVertices.put(actual, 'A');
+
+        //Obtenemos los adyacentes de este vertice
+        Iterator<Integer> adyacentes = this.grafo.obtenerAdyacentes(actual);
+
+        while(adyacentes.hasNext()) {
+            Integer vecino = adyacentes.next();
+            //Si el vecino esta sin visitar, propagamos la busqueda siguiendo por el
+            if(!this.estadoVertices.get(vecino).equals('A')) {
+                if(existeCamino(vecino, destino)) {
+                    return true;
+                }
+            }
+        }
+
+        //Al volver de la recursion, si nunca llegamos al destino, devolvemos false
+        return false;
+    }
 
 
 }
