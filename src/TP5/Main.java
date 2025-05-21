@@ -1,14 +1,101 @@
 package TP5;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import TP4.*;
 public class Main {
 	public static void main(String[] args) {
-		
-		
+		ArrayList<Integer> entrada = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
+		int target = 5;
+
+		System.out.println(sumaIgualA(entrada,target));
+
 	}
-	
+
+	//EJERCICIO 3
+	//Suma de subconjuntos. Dados n números positivos distintos, se desea encontrar todas las
+	//combinaciones de esos números tal que la suma sea igual a M.
+
+	//Entonces, dada una lista de numeros y un target, se devolvera una lista de listas, donde cada una de
+	//las sublistas sera una combinacion de numeros cuya sume sea igual al target
+
+	public static ArrayList<ArrayList<Integer>> sumaIgualA(ArrayList<Integer> entrada, Integer target){
+		ArrayList<ArrayList<Integer>> resultado = new ArrayList<>();
+		ArrayList<Integer> solucionParcial = new ArrayList<>();
+		sumaIgualA(entrada,0,target,0,solucionParcial,resultado);
+		return resultado;
+	}
+
+
+	//Para este ej se cambia un poco el enfoque del backtracking, por lo general primero se agregan cosas
+	// a la solucion parcial y LUEGO se decide que hacer.
+	//Pero en este ejercicio, primero SE DECIDE si agregar, separando las deciciones de "AGREGAR/NO AGREGAR"
+	//En sus propias busquedas
+
+	//Entonces, primero compruebo si ya es solucion, y despues lanzo dos busquedas diferentes, contemplando
+	//ambas posibilidades
+	public static void sumaIgualA(ArrayList<Integer> entrada,Integer indice, Integer target,Integer sumaActual, ArrayList<Integer> solucionParcial, ArrayList<ArrayList<Integer>> resultado){
+
+		//Si la suma es igual al target, entonces el conjunto actual es una solucion valida
+		if (sumaActual.equals(target)){
+			resultado.add(new ArrayList<>(solucionParcial));	//Agrego esta solucion a la lista de soluciones
+			return; //Corto la recursion porque si sigo sumando romperia la solucion
+		}
+
+		//Freno si me paso del array
+		//En este caso, puedo podar si la suma ya es mas grande que el target
+		if (sumaActual > target || indice >= entrada.size()) {
+			return;
+		}
+
+		//RAMA 1: AGREGO EL ELEMENTO SIGUIENTE
+
+		//Tenemos una variable "indice" para saber cual elemento del conjunto estamos analizando
+		//Como todavia no alcanzamos una solucion valida, agregamos el numero actual a la suma
+		//y aumentamos el indice para seguir buscando por el siguiente
+
+		solucionParcial.add(entrada.get(indice)); //Agrega el actual
+
+		//Se propaga la busqueda en el siguiente indice, y le sumamos el actual a la suma Actual
+		sumaIgualA(entrada, indice + 1, target, sumaActual + entrada.get(indice), solucionParcial, resultado);
+
+
+		solucionParcial.remove(solucionParcial.size()-1);
+
+
+		//RAMA 2: NO AGREGO EL ELEMENTO SIGUIENTE
+
+		//En esta rama, nunca sumo el actual a la suma total, directamente paso al siguiente numero
+		sumaIgualA(entrada, indice + 1, target, sumaActual, solucionParcial, resultado);
+
+
+		//Como en esta rama nunca se incluyo el siguiente indice, no necesito hacer otro remove
+
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//EJERCICIO 2
 	public static ArrayList<Integer> caminoMasLargo(GrafoDirigido<Integer> grafo, Integer entrada, Integer salida){
 		
 		ArrayList<Integer> caminoMasLargo = new ArrayList<>();
