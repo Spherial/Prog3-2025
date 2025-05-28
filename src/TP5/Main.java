@@ -200,4 +200,57 @@ public class Main {
 		return suma;
 	}
 
+	//EJERCICIO 5
+	
+	public static ArrayList<Procesador> distribuirTareas(ArrayList<Procesador> procesadores, ArrayList<Integer> tareas){
+		ArrayList<Procesador> mejorSolucion = new ArrayList<>();
+		ArrayList<Procesador> solucionActual = new ArrayList<>(procesadores);
+		backtracking(solucionActual,tareas,0,mejorSolucion);
+		return mejorSolucion;
+	}
+	
+	private static void backtracking(ArrayList<Procesador> procesadores, ArrayList<Integer> tareas, Integer indice, ArrayList<Procesador> mejorSolucion) {
+		if (indice>= tareas.size()) {
+			mejorSolucion.clear();
+			mejorSolucion=new ArrayList(procesadores);
+		}else {
+			for(Procesador p:procesadores) {
+				p.agregarTarea(tareas.get(indice));
+				backtracking(procesadores, tareas, indice, mejorSolucion);
+				p.eliminarTarea(tareas.get(indice));
+			}
+		}
+	}
+	
+	private static Integer obtenerMayorConsumo(ArrayList<Procesador> procesadores) {
+		Integer mayorConsumo = Integer.MAX_VALUE;
+		for(Procesador p : procesadores) {
+			if (p.getConsumoTotal() < mayorConsumo) {
+				mayorConsumo = p.getConsumoTotal();
+			}
+		}
+		return mayorConsumo;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
