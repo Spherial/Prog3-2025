@@ -26,5 +26,18 @@ public class Procesador {
 	public void eliminarTarea(Integer indice) {
 		this.tareas.remove(indice);
 	}
-	
+
+	public Procesador getCopia() {
+		Procesador nuevo = new Procesador();
+		for (Integer t : this.tareas) {
+			nuevo.agregarTarea(t);
+		}
+		return nuevo;
+	}
+
+	public String toString() {
+		return tareas.toString() + " (Total: " + getConsumoTotal() + ")";
+	}
+
+
 }

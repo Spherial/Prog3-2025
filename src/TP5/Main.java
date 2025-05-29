@@ -11,6 +11,22 @@ public class Main {
 
 		System.out.println(sumaIgualA(entrada,target));
 
+
+        System.out.println("PROCESADOR Y TAREAS");
+
+        ArrayList<Procesador> procesadores = new ArrayList<>();
+        procesadores.add(new Procesador());
+        procesadores.add(new Procesador());
+        procesadores.add(new Procesador());
+        ArrayList<Integer> tareas = new ArrayList<>();
+        tareas.add(5);
+        tareas.add(2);
+        tareas.add(9);
+        tareas.add(4);
+
+        ArrayList<Procesador> mejorDistribucion = distribuirTareas(procesadores,tareas);
+        System.out.println(mejorDistribucion);
+
 	}
 
 	//EJERCICIO 3
@@ -210,22 +226,33 @@ public class Main {
 	}
 	
 	private static void backtracking(ArrayList<Procesador> procesadores, ArrayList<Integer> tareas, Integer indice, ArrayList<Procesador> mejorSolucion) {
+        //Si ya asigne todas las tareas, tengo un estado final
 		if (indice>= tareas.size()) {
-			mejorSolucion.clear();
-			mejorSolucion=new ArrayList(procesadores);
+            if (mejorSolucion.isEmpty() || obtenerMayorConsumo(procesadores) < obtenerMayorConsumo(mejorSolucion)){
+                mejorSolucion.clear();
+
+                //No puedo hacer un addAll porque los procesadores tienen una estructura compleja
+                //Entonces tengo que generar una copia para no modificar la referencia original
+                for (Procesador p : procesadores) {
+                    mejorSolucion.add(p.getCopia());
+                }
+            }
+
 		}else {
+            //Agrega la tarea actual (a la que apunta el indice) al sig procesador, y propaga la busqueda
 			for(Procesador p:procesadores) {
 				p.agregarTarea(tareas.get(indice));
-				backtracking(procesadores, tareas, indice, mejorSolucion);
+				backtracking(procesadores, tareas, indice+1, mejorSolucion);
 				p.eliminarTarea(tareas.get(indice));
 			}
 		}
 	}
-	
+
+    //Calcula todos los consumos de los procesadores y devuelve el mayor
 	private static Integer obtenerMayorConsumo(ArrayList<Procesador> procesadores) {
-		Integer mayorConsumo = Integer.MAX_VALUE;
+		Integer mayorConsumo = Integer.MIN_VALUE;
 		for(Procesador p : procesadores) {
-			if (p.getConsumoTotal() < mayorConsumo) {
+			if (p.getConsumoTotal() > mayorConsumo) {
 				mayorConsumo = p.getConsumoTotal();
 			}
 		}
