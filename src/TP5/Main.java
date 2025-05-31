@@ -27,6 +27,13 @@ public class Main {
         ArrayList<Procesador> mejorDistribucion = distribuirTareas(procesadores,tareas);
         System.out.println(mejorDistribucion);
 
+
+		System.out.println("CONJUNTOS QUE SUMAN IGUAL:");
+
+		ArrayList<Integer> entrada1 = new ArrayList<>(Arrays.asList(1, 5, 11, 5));
+		System.out.println(mismaSuma(entrada1));
+
+
 	}
 
 	//EJERCICIO 3
@@ -258,26 +265,109 @@ public class Main {
 		}
 		return mayorConsumo;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+	//EJERCICIO 6 (Caballo)
+
+	public static ArrayList<Celda> caballoAtila(Celda[][] matriz, Celda celda1){
+		ArrayList<Celda> camino = new ArrayList<>();
+		boolean[][] visitado = new boolean[matriz.length][matriz[0].length];
+		camino(matriz,celda1, celda1,camino);
+		return camino;
+	}
+
+
+	private static void camino(Celda[][] matriz, Celda actual, Celda destino, ArrayList<Celda> camino){
+		camino.add(actual);
+		//TODO
+	}
+
+
+
+	//EJERCICIO 4
+//	Partición de conjunto. Dado un conjunto de n enteros se desea encontrar, si existe, una partición en
+//	dos subconjuntos disjuntos, tal que la suma de sus elementos sea la misma.
+
+
+	//En este caso solo necesitamos una solucion, (saber si hay o no), entonces podemos usar un boolean
+
+	//No necesitamos comparar soluciones, ni chequear soluciones parciales. Solo interesan estados finales
+
+	public static ArrayList<ArrayList<Integer>> mismaSuma(ArrayList<Integer> entrada){
+
+		ArrayList<ArrayList<Integer>> solucion = new ArrayList<>();
+		ArrayList<Integer> conjunto1 = new ArrayList<>();
+		ArrayList<Integer> conjunto2 = new ArrayList<>();
+		if (mismaSuma(entrada,0,conjunto1,conjunto2,solucion)){
+			return solucion;
+		}
+		return new ArrayList<>();
+	}
+
+
+	//Crea una recursion hasta que se asignen todos los elementos de la entrada, y compara las sumas
+	//De los subconjuntos en cada posible estado final
+	public static boolean mismaSuma(ArrayList<Integer> entrada,Integer indice, ArrayList<Integer> conjunto1, ArrayList<Integer> conjunto2, ArrayList<ArrayList<Integer>> solucion){
+
+		//Nos aseguramos que estamos parados en un estado final (ya se asignaron todos los numeros)
+		if (indice == entrada.size()){
+			//Si suman lo mismo, agregamos los 2 conjuntos que cumplen a nuestra solucion
+			if (sumaValores(conjunto1) == sumaValores(conjunto2)){
+				solucion.add(new ArrayList<>(conjunto1));
+				solucion.add(new ArrayList<>(conjunto2));
+				return true;
+			}
+		}
+
+		//Sino, abrimos 2 ramas, una para cuando insertamos el elemento en el conjunto 1, y otra
+		//Para cuando lo hacemos en el conjunto 2
+		else{
+			conjunto1.add(entrada.get(indice));
+			if (mismaSuma(entrada,indice+1,conjunto1,conjunto2,solucion)){
+				return true;
+			}
+			conjunto1.remove(conjunto1.size()-1);
+
+
+			conjunto2.add(entrada.get(indice));
+			if (mismaSuma(entrada,indice+1,conjunto1,conjunto2,solucion)){
+				return true;
+			}
+			conjunto2.remove(conjunto2.size()-1);
+		}
+
+		//Si es un estado final, pero no coincide ninguna suma, no hay solucion
+		return false;
+	}
+
+	public static int sumaValores(ArrayList<Integer> numeros){
+		int suma = 0;
+		for(int numero : numeros){
+			suma+=numero;
+		}
+		return suma;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
